@@ -18,6 +18,7 @@ def go(args):
     # Download input artifact. This will also log that this script is using this
     # particular version of the artifact
     artifact_local_path = run.use_artifact(args.input_artifact).file()
+    logger.info("Downloaded raw data")
 
     # local_path = wandb.use_artifact("sample.csv:latest").file()
     df = pd.read_csv(artifact_local_path)
@@ -27,6 +28,7 @@ def go(args):
     df = df[idx].copy()
     # Convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
+    logger.info("Data cleaning done. Uploading Artifact...")
 
     df.to_csv("clean_sample.csv", index=False)
 
